@@ -1,0 +1,19 @@
+# Ignore Maven target directory
+target/
+
+# Ignore SpotBugs reports
+*.spotbugs
+
+# Ignore Surefire test reports
+*.xml
+*.txt
+
+# IntelliJ / VSCode settings (optional, if using)
+.idea/
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+# Ignore log files
+*.log
