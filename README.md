@@ -167,40 +167,40 @@ The following screenshots are provided in the screenshots folder
 
 ### GitHub Actions - DEV Build & Deploy
 
-- ![actions-build-dev.png](./screenshots/actions-build-dev.png)
-- ![actions-build-dev2.png](./screenshots/actions-build-dev2.png)
+ ![actions-build-dev.png](./screenshots/actions-build-dev.png)
+ ![actions-build-dev2.png](./screenshots/actions-build-dev2.png)
 
 ### GitHub Actions - Manual PROD Deploy
 
-- ![actions-manual-prod.png](./screenshots/actions-manual-prod.png)
+ ![actions-manual-prod.png](./screenshots/actions-manual-prod.png)
 
 ### Git Branches (develop / main)
 
-- ![git-branches.png](./screenshots/git-branches.png)
+ ![git-branches.png](./screenshots/git-branches.png)
 
 ### Static Analysis - SpotBugs Passed
 
-- ![spotbug-static-analysis-check.png](./screenshots/spotbug-static-analysis-check.png)
+ ![spotbug-static-analysis-check.png](./screenshots/spotbug-static-analysis-check.png)
 
 ### Unit Tests Passed
 
-- ![tests-passed.png](./screenshots/tests-passed.png)
+ ![tests-passed.png](./screenshots/tests-passed.png)
 
 ### Docker Run (DEV + PROD)
 
-- ![docker-run-prod-dev.png](./screenshots/docker-run-prod-dev.png)
+ ![docker-run-prod-dev.png](./screenshots/docker-run-prod-dev.png)
 
 ### App running in Browser - DEV
 
-- ![browser-dev.png](./screenshots/browser-dev.png)
+ ![browser-dev.png](./screenshots/browser-dev.png)
 
 ### App running in Browser - PROD
 
-- ![browser-prod.png](./screenshots/browser-prod.png)
+ ![browser-prod.png](./screenshots/browser-prod.png)
 
 ### DockerHub - Uploaded Images
 
-- ![dockerhub-tags.png](./screenshots/dockerhub-tags.png)
+ ![dockerhub-tags.png](./screenshots/dockerhub-tags.png)
 
 ---
 
