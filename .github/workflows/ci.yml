@@ -1,10 +1,10 @@
-name: Java CI Pipeline
+name: Java CI with Maven
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ "main", "develop" ]
   pull_request:
-    branches: [ main ]
+    branches: [ "main", "develop" ]
   workflow_dispatch:
 
 jobs:
@@ -12,31 +12,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+    - uses: actions/checkout@v3
 
     - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
-        java-version: '17'
-        distribution: 'temurin'
+        distribution: temurin
+        java-version: 17
 
     - name: Build with Maven
       run: mvn clean install
 
-    - name: Run Tests
+    - name: Run Unit Tests
       run: mvn test
 
-    - name: Checkstyle Lint
-      run: mvn checkstyle:check
+    - name: Run Static Analysis (SpotBugs)
+      run: mvn spotbugs:check
 
-    - name: Package Docker image
+    - name: Build Docker Image
       run: |
-        docker build -t task-manager:${{ github.ref_name }} .
-        docker save -o task-manager-${{ github.ref_name }}.tar task-manager:${{ github.ref_name }}
-
-    - name: Upload artifact ZIP
-      uses: actions/upload-artifact@v3
+        docker build -t task-manager:${{ github.sha }} .
+    
+    - name: Save Docker image as artifact (simulate upload)
+      run: |
+        docker save task-manager:${{ github.sha }} -o task-manager.tar
+    - uses: actions/upload-artifact@v4
       with:
-        name: task-manager-${{ github.ref_name }}
-        path: task-manager-${{ github.ref_name }}.tar
+        name: task-manager-image
+        path: task-manager.tar

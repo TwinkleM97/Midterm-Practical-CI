@@ -12,7 +12,8 @@ public class TaskService {
     private final List<Task> tasks = new ArrayList<>();
 
     public List<Task> getAllTasks() {
-        return tasks;
+        // FIX: Return a copy to avoid exposing internal list
+        return new ArrayList<>(tasks);
     }
 
     public void addTask(Task task) {

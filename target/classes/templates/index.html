@@ -72,7 +72,7 @@
     </style>
 </head>
 <body>
-    <h1>🚀 Task Manager</h1>
+    <h1>Task Manager</h1>
 
     <form th:action="@{/add}" th:object="${task}" method="post">
         <input type="text" th:field="*{description}" placeholder="Enter new task" required />
