@@ -1,140 +1,209 @@
-# Task Manager Application with CI/CD Pipeline
+# Midterm Practical CI Pipeline - Task Manager App
 
-This project is a simple Task Manager application built using Java Spring Boot and Thymeleaf, packaged with Docker and integrated with a CI/CD pipeline using GitHub Actions.
+This is a Java Spring Boot **Task Manager App** created for the Midterm Practical assignment: Designing & Implementing a CI Pipeline with GitHub Actions.
 
-It demonstrates:
+---
 
-- Build automation
-- Unit testing
-- Linting/Static analysis
-- Dockerization
-- Multi-environment support (dev, prod)
-- Artifact upload
-- Clear CI workflow documentation
+## Project Overview
 
-## Project Setup & Dependencies
+This app is a Task Manager with a web UI, built using:
 
-### Prerequisites
+- Java 17
+- Spring Boot 3.x
+- Thymeleaf for the front-end
+- H2 In-Memory Database
+- Maven build tool
+- Docker
 
-- Java 17 (Temurin JDK 17)
-- Maven 3.x
-- Docker Desktop
-- GitHub account
+It allows adding and deleting tasks, with two environments: **DEV** and **PROD** (multi-environment deployment).
 
-### Build locally
+---
+
+## Why This Project?
+
+- Provides both API logic and front-end UI.
+- Is precise and self-contained (easy to test).
+- Suitable for CI pipeline demonstration.
+
+---
+
+## Branching
+
+- `develop` → auto-deploy DEV env  
+- `main` → manual deploy to PROD env
+
+---
+
+## CI Pipeline — Stages and Purpose
+
+The CI pipeline is defined in `.github/workflows/ci.yml`.
+
+### 1. **Build Stage** 
+
+- `mvn clean install`  
+- Ensures the app builds correctly.
+- Fails the pipeline if build errors occur.
+- Verifies dependencies, compiles Java classes.
+
+### 2. **Test Stage** 
+
+- `mvn test`  
+- 4 unit tests included.
+- Verifies application correctness.
+- Fails pipeline if any test fails.
+
+### 3. **Static Analysis** 
+
+- `mvn spotbugs:check`  
+- SpotBugs is used as the static analyzer.
+- Catches potential bugs (null pointer, resource leaks, etc).
+- Fails pipeline if critical issues detected.
+
+### 4. **Docker Image Build & Upload** 
+
+- Builds Docker image:  
+  `docker build -t task-manager:commitsha .`
+- Uploads to **DockerHub**:  
+  `docker push twinklem97/task-manager-ci:dev` or `latest`
+
+- **Purpose**:  
+  Provides a deployable artifact (Docker image) and not just source code.
+
+### 5. **Multi-Environment Deployment**
+
+#### Environments:
+
+- `develop` → triggers auto deployment of `dev` image/tag.
+- `main` → triggers manual deploy of `prod` image/tag.
+
+#### .env Files:
+
+- `.env.dev` → contains: `APP_TITLE=Task Manager (DEV)`
+- `.env.prod` → contains: `APP_TITLE=Task Manager (PROD)`
+
+These environment variables are injected during Docker run to display DEV or PROD label in app.
+I used branch-based deployments and .env files to implement multi-environment deployment.
+
+---
+
+## How to Run the App (Docker)
+
+### Step 1: Clone the Repository
 
 ```bash
-mvn clean install
+git clone https://github.com/TwinkleM97/Midterm-Practical-CI.git
+cd Midterm-Practical-CI
 ```
 
-### Run locally (without Docker)
+---
 
-```bash
-mvn spring-boot:run
-```
-
-## Application Features
-
-- Add and delete tasks
-- Tasks stored in in-memory H2 database
-- Environment-specific title (DEV / PROD)
-- Responsive UI with Thymeleaf
-
-## CI/CD Pipeline
-
-Implemented with GitHub Actions (.github/workflows/ci.yml):
-
-### Pipeline stages:
-
-1. Build
-    - Runs mvn clean install
-    - Fails on build error
-2. Unit Tests
-    - Runs test suite (4+ tests)
-    - Fails on test errors
-3. Static Analysis
-    - Runs SpotBugs plugin
-    - Fails on critical issues
-4. Docker Build & Upload
-    - Builds Docker image
-    - Uploads Docker image as artifact
-
-## Multi-Environment Deployment
-
-Two environments are supported:
-
-| Environment | Trigger                               | Env File    |
-|-------------|---------------------------------------|-------------|
-| dev         | Automatically on push to develop      | .env.dev    |
-| prod        | Manually via GitHub Actions "Run"     | .env.prod   |
-
-Environment-specific behavior:
-
-App title (APP_TITLE) changes based on .env.dev or .env.prod
-
-Example:
-
-```env
-# .env.dev
-APP_TITLE=Task Manager (DEV)
-
-# .env.prod
-APP_TITLE=Task Manager (PROD)
-```
-
-## Running Dockerized Application
-
-### Build Docker image:
+### Step 2: Build Docker Image
 
 ```bash
 docker build -t task-manager:local .
 ```
 
-### Run DEV environment:
+---
+
+### Step 3: Run in DEV Environment
 
 ```bash
 docker run --env-file .env.dev -p 8080:8080 task-manager:local
 ```
 
-### Run PROD environment (example port 8081):
+Visit: http://localhost:8080
+
+---
+
+### Step 4: Run in PROD Environment
 
 ```bash
 docker run --env-file .env.prod -p 8081:8080 task-manager:local
 ```
 
-## Branch Strategy
+Visit: http://localhost:8081
 
-- main: Production-ready code
-- develop: Active development and testing  
-  → CI/CD automatically runs on develop
+---
 
-## How to Trigger Pipeline
+## CI/CD — Triggering Builds
 
-- Push to develop: triggers full CI pipeline for DEV env
-- Merge to main: triggers full CI pipeline for PROD env (manually trigger deploy)
-- Manual trigger: via GitHub Actions UI (workflow_dispatch)
+| Branch     | Trigger Type        | Result / Tag |
+|------------|---------------------|--------------|
+| develop    | auto on push        | deploys `dev` image |
+| main       | manual dispatch     | deploys `latest` (prod) image |
 
-## Repository Hygiene
+---
 
-- .gitignore used — no unnecessary files committed
-- Source code organized
-- CI config stored in .github/workflows/
-- Dockerfile provided
-- README fully documents the project and pipeline
+## Project Setup & Dependencies
 
-## Summary
+**Dependencies:**
 
-This project meets the following assignment objectives:
+- Spring Boot Web
+- Thymeleaf
+- Spring Data JPA
+- H2 DB
+- Spring Boot Test
+- SpotBugs Maven Plugin
 
-- CI/CD pipeline with GitHub Actions
-- Build, Test, Lint, Upload stages
-- Multi-environment support (DEV/PROD)
-- Dockerized application
-- Clear documentation
-- Organized Git repository with feature branch (develop)
+---
 
-## Notes
+## How to Run CI Manually
 
-- This app uses a new project (not used in Assignment 1 or Lab 1-2)
-- Screenshots provided separately (GitHub Actions run, Docker run, etc.)
-- Jenkins was not used — GitHub Actions was selected
+Go to GitHub Actions → select **workflow_dispatch** → choose branch → Run workflow.
+
+---
+
+## Why These Choices?
+
+- **SpotBugs**: required static analysis stage.
+- **Maven**: build tool to manage dependencies and lifecycle.
+- **Docker**: creates deployable, platform-independent artifact.
+- **Multi-env**: for `dev` and `prod` — proven via APP_TITLE and separate env files.
+
+---
+## Screenshots
+
+The following screenshots are provided in the screenshots folder
+
+### GitHub Actions - DEV Build & Deploy
+
+- ![actions-build-dev.png](./screenshots/actions-build-dev.png)
+- ![actions-build-dev2.png](./screenshots/actions-build-dev2.png)
+
+### GitHub Actions - Manual PROD Deploy
+
+- ![actions-manual-prod.png](./screenshots/actions-manual-prod.png)
+
+### Git Branches (develop / main)
+
+- ![git-branches.png](./screenshots/git-branches.png)
+
+### Static Analysis - SpotBugs Passed
+
+- ![spotbug-static-analysis-check.png](./screenshots/spotbug-static-analysis-check.png)
+
+### Unit Tests Passed
+
+- ![tests-passed.png](./screenshots/tests-passed.png)
+
+### Docker Run (DEV + PROD)
+
+- ![docker-run-prod-dev.png](./screenshots/docker-run-prod-dev.png)
+
+### App running in Browser - DEV
+
+- ![browser-dev.png](./screenshots/browser-dev.png)
+
+### App running in Browser - PROD
+
+- ![browser-prod.png](./screenshots/browser-prod.png)
+
+### DockerHub - Uploaded Images
+
+- ![dockerhub-tags.png](./screenshots/dockerhub-tags.png)
+
+---
+
+## Author
+- Twinkle Mishra -8894858
+
