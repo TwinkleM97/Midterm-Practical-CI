@@ -59,7 +59,7 @@ The CI pipeline is defined in `.github/workflows/ci.yml`.
 - Catches potential bugs (null pointer, resource leaks, etc).
 - Fails pipeline if critical issues detected.
 
-## 4. How to Run Locally (without Docker)
+### 4. How to Run Locally (without Docker)
 
 If you want to run the app locally using Maven and Java:
 
