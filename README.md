@@ -63,12 +63,13 @@ The CI pipeline is defined in `.github/workflows/ci.yml`.
 
 If you want to run the app locally using Maven and Java:
 
-### 1️⃣ Prerequisites (Install First)
+### 1️ Prerequisites (Install First)
 
 - Java 17 JDK (tested with Temurin or Corretto)
 - Maven 3.x
 - Git
 - Any IDE (VSCode or IntelliJ IDEA)
+- Add JDK and Maven bin paths to system environment variables under System Path.
 
 For VSCode also install extensions:
 - Java Extension Pack
@@ -76,7 +77,7 @@ For VSCode also install extensions:
 
 ---
 
-### 2️⃣ Clone the Repository
+### 2️ Clone the Repository
 
 ```bash
 git clone https://github.com/TwinkleM97/Midterm-Practical-CI.git
@@ -85,7 +86,7 @@ cd Midterm-Practical-CI
 
 ---
 
-### 3️⃣ Build the project (skip SpotBugs during local install)
+### 3️ Build the project (skip SpotBugs during local install)
 
 ```powershell
 mvn clean install "-Dspotbugs.skip=true"
@@ -93,7 +94,7 @@ mvn clean install "-Dspotbugs.skip=true"
 
 ---
 
-### 4️⃣ Run the app (DEV)
+### 4️ Run the app (DEV)
 
 ```powershell
 mvn spring-boot:run "-Dspring-boot.run.profiles=dev"
@@ -103,25 +104,13 @@ App will run at: [http://localhost:8080](http://localhost:8080)
 
 ---
 
-### 5️⃣ Run the app (PROD)
+### 5️ Run the app (PROD)
 
 ```powershell
 mvn spring-boot:run "-Dspring-boot.run.profiles=prod"
 ```
 
 App will run at: [http://localhost:8080](http://localhost:8080)
-
----
-
-### 6️⃣ Required System Environment Variables (if running via Docker)
-
-These are provided in `.env.dev` and `.env.prod`:
-
-```ini
-APP_TITLE=Task Manager (DEV or PROD)
-```
-
-When using Maven directly — Maven will pick the profile (step 4 and 5 above), so no need to set env manually.
 
 ---
 
