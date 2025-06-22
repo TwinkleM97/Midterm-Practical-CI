@@ -59,7 +59,87 @@ The CI pipeline is defined in `.github/workflows/ci.yml`.
 - Catches potential bugs (null pointer, resource leaks, etc).
 - Fails pipeline if critical issues detected.
 
-### 4. **Docker Image Build & Upload** 
+## 4. How to Run Locally (without Docker)
+
+If you want to run the app locally using Maven and Java:
+
+### 1️⃣ Prerequisites (Install First)
+
+- Java 17 JDK (tested with Temurin or Corretto)
+- Maven 3.x
+- Git
+- Any IDE (VSCode or IntelliJ IDEA)
+
+For VSCode also install extensions:
+- Java Extension Pack
+- Maven for Java
+
+---
+
+### 2️⃣ Clone the Repository
+
+```bash
+git clone https://github.com/TwinkleM97/Midterm-Practical-CI.git
+cd Midterm-Practical-CI
+```
+
+---
+
+### 3️⃣ Build the project (skip SpotBugs during local install)
+
+```powershell
+mvn clean install "-Dspotbugs.skip=true"
+```
+
+---
+
+### 4️⃣ Run the app (DEV)
+
+```powershell
+mvn spring-boot:run "-Dspring-boot.run.profiles=dev"
+```
+
+App will run at: [http://localhost:8080](http://localhost:8080)
+
+---
+
+### 5️⃣ Run the app (PROD)
+
+```powershell
+mvn spring-boot:run "-Dspring-boot.run.profiles=prod"
+```
+
+App will run at: [http://localhost:8080](http://localhost:8080)
+
+---
+
+### 6️⃣ Required System Environment Variables (if running via Docker)
+
+These are provided in `.env.dev` and `.env.prod`:
+
+```ini
+APP_TITLE=Task Manager (DEV or PROD)
+```
+
+When using Maven directly — Maven will pick the profile (step 4 and 5 above), so no need to set env manually.
+
+---
+
+### Notes
+
+On Windows with Docker Desktop, if you see:
+
+```bash
+exec /usr/bin/sh: accessing a corrupted shared library
+```
+
+This is a known issue with the Temurin JDK base image in WSL2 + Docker Desktop.  
+**Workaround:** run the app using Maven directly, as shown above.
+
+SpotBugs is included in CI pipeline but can be skipped in local builds to prevent slowdowns.
+
+
+### **Docker Image Build & Upload** 
 
 - Builds Docker image:  
   `docker build -t task-manager:commitsha .`
